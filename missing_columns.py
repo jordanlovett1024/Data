@@ -9,7 +9,7 @@ os.system("ls /../../home/labs/holscher_lab/alex/AGP_2019/mapping_files/ > files
 
 with open('files.txt') as f:
     filenames = f.readlines()
-filenames = [x.strip() for x in content]
+filenames = [x.strip() for x in filenames]
 
 def count_gaps(path,tsv,gaps,entries):
     df = pd.read_csv(path+tsv,sep='\t')
@@ -19,7 +19,9 @@ def count_gaps(path,tsv,gaps,entries):
         entries[col_index] = entries[col_index] + len(df[col_value])
         gaps[col_index] = gaps[col_index] + len([i for i in df[col_value] if i.__contains__('Not provided')
                                or i.__contains__('nan')])  
-gaps = np.zeros((len(df.columns),))
+
+df1 = df = pd.read_csv(path+filenames[1],sep='\t')
+gaps = np.zeros((len(df1.columns),))
 entries = np.zeros(gaps.shape)
 
 for i in range(len(filenames)):
