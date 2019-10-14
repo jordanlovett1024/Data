@@ -27,5 +27,9 @@ entries = np.zeros(gaps.shape)
 for i in range(len(filenames)):
     count_gaps(path,filenames[i],gaps,entries)
 
+for i in range(entries.shape[0]):
+    if entries[i] == 0: 
+        gaps = gaps[:i]
+        entries = entries[:i]    
 results = pd.DataFrame({'Name':df.columns,'Missing':gaps,'Occurences':entries, '% Missing':gaps/entries *100})
 results.to_csv('results.tsv',sep='\t')
