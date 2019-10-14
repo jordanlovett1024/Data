@@ -20,17 +20,16 @@ def count_gaps(path,tsv,gaps,entries):
         gaps[col_index] = gaps[col_index] + len([i for i in df[col_value] if i.__contains__('Not provided')
                                or i.__contains__('nan')])  
 
+
 df1 = df = pd.read_csv(path+filenames[1],sep='\t')
 gaps = np.zeros((700,))
 entries = np.zeros(gaps.shape)
 
-for i in range(len(filenames)):
+for i in range(len(filenames[:10])):
     count_gaps(path,filenames[i],gaps,entries)
-for i in range(entries.shape[0]):
-    if entries[i] == 0: 
-        gaps = gaps[:i]
-        entries = entries[:i]
-        break
+entries = entries[:len(df.columns)]
+gaps = entries[:len(df.columns)]
+
 
 results = pd.DataFrame({'Name':df.columns,'Missing':gaps,'Occurences':entries, '% Missing':gaps/entries *100})
 results.to_csv('results.tsv',sep='\t')
